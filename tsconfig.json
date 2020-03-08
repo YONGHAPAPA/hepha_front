@@ -17,10 +17,25 @@
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
-    "jsx": "react", 
-    "sourceMap": true   
+    "jsx": "react",
+    "sourceMap": true,
+    "noImplicitThis": false,
+    "noImplicitAny": false,
+    "experimentalDecorators": true,
+    "declaration": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "incremental": true,
+    "noFallthroughCasesInSwitch": true,
+    "outDir": "build/dist",
+    "baseUrl": "./src/",
+    "strictPropertyInitialization": false
   },
   "include": [
-    "src"
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "build"
   ]
 }
