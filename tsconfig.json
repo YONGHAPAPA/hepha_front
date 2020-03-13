@@ -16,7 +16,7 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "noEmit": true,
+    //"noEmit": true,
     "jsx": "react",
     "sourceMap": true,
     "noImplicitThis": false,
@@ -25,11 +25,12 @@
     "declaration": true,
     "noUnusedLocals": false,
     "noUnusedParameters": false,
-    "incremental": true,
+    //incremental": true,
     "noFallthroughCasesInSwitch": true,
     "outDir": "build/dist",
     "baseUrl": "./src/",
-    "strictPropertyInitialization": false
+    "strictPropertyInitialization": false, 
+    "strictNullChecks": false,
   },
   "include": [
     "src/**/*"
