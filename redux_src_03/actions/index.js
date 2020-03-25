@@ -11,13 +11,8 @@ export const toggleTodo = id => ({
     id: id
 });
 
-export const VisibleFilters = {
+export const VisibilityFilters = {
     SHOW_ALL: "SHOW_ALL",
-    SHOW_ACTIVE: "SHOW_ACTIVE",
-    SHOW_COMPLETED: "SHOW_COMPLETED"
+    SHOW_COMPLETED: "SHOW_COMPLETED",
+    SHOW_ACTIVE: "SHOW_ACTIVE"
 };
-
-export const setFilter = filter => ({
-    type: "SET_VISIBLE_FILTER",
-    filter
-});

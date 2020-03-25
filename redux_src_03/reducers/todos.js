@@ -1,6 +1,6 @@
-import undoable, { distinctState } from "redux-undo";
-
 const todos = (state = [], action) => {
+    console.log(action.type);
+
     switch (action.type) {
         case "ADD_TODO":
             return [
@@ -12,7 +12,6 @@ const todos = (state = [], action) => {
                 }
             ];
         case "TOGGLE_TODO":
-            console.log("action.id >> " + action.id);
             return state.map(todo =>
                 todo.id === action.id
                     ? { ...todo, completed: !todo.completed }
@@ -23,7 +22,4 @@ const todos = (state = [], action) => {
     }
 };
 
-const undoableTodos = undoable(todos);
-
-//export default todos;
-export default undoableTodos;
+export default todos;

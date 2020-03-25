@@ -28,6 +28,7 @@
     "redux-actions": "^2.6.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-observable": "^1.2.0",
+    "redux-undo": "^1.0.1",
     "rxjs": "^6.5.4",
     "typesafe-actions": "^5.1.0",
     "typescript": "~3.7.2",

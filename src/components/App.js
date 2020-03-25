@@ -1,19 +1,18 @@
 import React from "react";
-import AddTodo from "./AddTodo";
-import TodoList from "./TodoList";
-import FilterLink from "./FilterLink";
+import AddTodo from "../components/AddTodo";
+import TodoList from "../components/TodoList";
+import FilterLink from "../components/FilterLink";
+import UndoRedo from "../components/UndoRedo";
 
-class App extends React.Component {
-    render() {
-        return (
-            <div>
-                <div>#App</div>
-                <AddTodo />
-                <TodoList />
-                <FilterLink />
-            </div>
-        );
-    }
-}
+const App = () => (
+    <div>
+        <div>
+            <AddTodo />
+            <TodoList />
+            <FilterLink />
+            <UndoRedo />
+        </div>
+    </div>
+);
 
 export default App;

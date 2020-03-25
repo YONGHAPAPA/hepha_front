@@ -1,45 +1,38 @@
 import React from "react";
 import { connect } from "react-redux";
-import { VisibilityFilters } from "../actions";
+import { setFilter, VisibleFilters } from "../actions";
 
 const mapStateToProps = state => ({
-    active: state.visibilityFilter
+    filter: state.visibleFilter
 });
 
-const mapDispatchToProps = (dispatch, ownProps) => ({
-    onClick: filter => {
-        dispatch({
-            type: "SET_VISIBILITY_FILTER",
-            filter: filter
-        });
-    }
-});
+const mapDispatchToProps = {
+    setFilter: setFilter
+};
 
-const FilterLink = ({ active, onClick }) => (
+const FilterLink = ({ filter, setFilter }) => (
     <div>
-        <div>
-            <button
-                onClick={() => onClick(VisibilityFilters.SHOW_ALL)}
-            >
-                All
-            </button>
-            <button
-                onClick={() => onClick(VisibilityFilters.SHOW_ACTIVE)}
-            >
-                Active
-            </button>
-            <button
-                onClick={() =>
-                    onClick(VisibilityFilters.SHOW_COMPLETED)
-                }
-            >
-                Completed
-            </button>
-        </div>
+        <button
+            disabled={filter === VisibleFilters.SHOW_ALL}
+            onClick={() => setFilter(VisibleFilters.SHOW_ALL)}
+        >
+            All
+        </button>
+        <button
+            disabled={filter === VisibleFilters.SHOW_ACTIVE}
+            onClick={() => setFilter(VisibleFilters.SHOW_ACTIVE)}
+        >
+            Active
+        </button>
+        <button
+            disabled={filter === VisibleFilters.SHOW_COMPLETED}
+            onClick={() => setFilter(VisibleFilters.SHOW_COMPLETED)}
+        >
+            Completed
+        </button>
     </div>
 );
 
-//export default FilterLink;
 export default connect(
     mapStateToProps,
     mapDispatchToProps

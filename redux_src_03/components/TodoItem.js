@@ -1,11 +1,11 @@
 import React from "react";
 
-const TodoItem = ({ text, completed, click }) => (
+const TodoItem = ({ text, completed, onClick }) => (
     <li
         style={{
             textDecoration: completed ? "line-through" : "none"
         }}
-        onClick={click}
+        onClick={onClick}
     >
         {text}
     </li>
