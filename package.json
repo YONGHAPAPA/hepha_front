@@ -11,6 +11,7 @@
     "@types/react-router-redux": "^5.0.18",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
+    "classnames": "^2.2.6",
     "cuid": "^2.1.8",
     "formik": "^2.1.4",
     "immutable": "^4.0.0-rc.12",
@@ -29,7 +30,9 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-observable": "^1.2.0",
     "redux-undo": "^1.0.1",
+    "reselect": "^4.0.0",
     "rxjs": "^6.5.4",
+    "todomvc-app-css": "^2.3.0",
     "typesafe-actions": "^5.1.0",
     "typescript": "~3.7.2",
     "yup": "^0.28.1"
@@ -38,7 +41,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "flow": "flow"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -69,6 +73,8 @@
     "eslint-config-prettier": "^6.10.0",
     "eslint-plugin-prettier": "^3.1.2",
     "eslint-plugin-react": "^7.18.3",
+    "flow-bin": "^0.121.0",
+    "flow-typed": "^3.1.0",
     "prettier": "^1.19.1"
   }
 }
