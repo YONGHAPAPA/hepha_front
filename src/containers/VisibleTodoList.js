@@ -4,13 +4,24 @@ import * as TodoActions from "../actions";
 import TodoList from "../components/TodoList";
 import { getVisibleTodos } from "../selectors";
 
-const mapStateToProps = state => ({
-    filteredTodos: getVisibleTodos(state)
-});
+const mapStateToProps = state => {
+    //var temp = getVisibleTodos(state);
+    //console.log(temp);
 
-const mapDispatchToProps = dispatch => ({
-    actions: bindActionCreators(TodoActions, dispatch)
-});
+    return {
+        filteredTodos: getVisibleTodos(state)
+    };
+};
+
+const mapDispatchToProps = dispatch => {
+    var objActions = bindActionCreators(TodoActions, dispatch);
+    console.log(objActions);
+
+    return {
+        //actions: bindActionCreators(TodoActions, dispatch)
+        actions: objActions
+    };
+};
 
 const VisibleTodoList = connect(
     mapStateToProps,

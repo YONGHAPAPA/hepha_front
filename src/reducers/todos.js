@@ -40,11 +40,16 @@ const todos = (state = initialState, action) => {
             );
         case COMPLETE_TODO:
             return state.map(t =>
-                t.id === action.id ? { ...t, completed: true } : t
+                t.id === action.id
+                    ? { ...t, completed: !t.completed }
+                    : t
             );
         case COMPLETE_ALL_TODO:
             const areAllCompleted = state.every(t => t.completed); //check?? tutorial logic...
-            return state.map(t => ({ ...t, completed: true }));
+            return state.map(t => ({
+                ...t,
+                completed: !areAllCompleted
+            }));
         case CLEAR_COMPLETED:
             return state.filter(t => !t.completed);
         default:
