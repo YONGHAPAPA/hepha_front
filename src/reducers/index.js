@@ -1,27 +1,20 @@
-import { combineReducers } from "redux";
-import products, * as fromProducts from "./products";
-import cart, * as fromCart from "./cart";
+import {
+    INCREMENT,
+    ADD_CHILD,
+    REMOVE_CHILD,
+    CREATE_NODE,
+    DELETE_NODE
+} from "../actions";
 
-export default combineReducers({ cart, products });
+const childIds = (childState, action) => {
+    switch (action.type) {
+        case ADD_CHILD:
+            return [...childState, action.child];
+        case REMOVE_CHILD:
+            return childState.filter(id => id !== action.childId);
+        default:
+            return childState;
+    }
+};
 
-const getAddedIds = state => fromCart.getAddedIds(state.cart);
-const getQuantity = (state, id) =>
-    fromCart.getQuantity(state.cart, id);
-const getProduct = (state, id) =>
-    fromProducts.getProduct(state.products, id);
-
-export const getTotal = state =>
-    getAddedIds(state)
-        .reduce(
-            (total, id) =>
-                total +
-                getProduct(state, id).price * getQuantity(state, id),
-            0
-        )
-        .toFixed(2);
-
-export const getCartProducts = state =>
-    getAddedIds(state).map(id => ({
-        ...getProduct(state, id),
-        quantity: getQuantity(state, id)
-    }));
+const node = (state, action) => {};

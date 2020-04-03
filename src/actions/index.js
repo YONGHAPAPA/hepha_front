@@ -1,42 +1,33 @@
-import shop from "../api/shop";
-import * as types from "../constants/ActionTypes";
+export const INCREMENT = "INCREMENT";
+export const CREATE_NODE = "CREATE_NODE";
+export const DELETE_NODE = "DELETE_NODE";
+export const ADD_CHILD = "ADD_CHILD";
+export const REMOVE_CHILD = "REMOVE_CHILD";
 
-const receiveProducts = products => ({
-    type: types.RECEIVE_PRODUCTS,
-    products
+export const increment = nodeId => ({
+    type: INCREMENT,
+    nodeId
 });
 
-const addToCartUnsafe = productId => ({
-    type: types.ADD_TO_CART,
-    productId
+let nextId = 0;
+export const createNode = () => ({
+    type: CREATE_NODE,
+    nodeId: `new_${nextId++}`
 });
 
-export const getAllProducts = () => dispatch => {
-    shop.getProducts(products => {
-        dispatch(receiveProducts(products));
-    });
-};
+export const deleteNode = nodeId => ({
+    type: DELETE_NODE,
+    nodeId
+});
 
-export const addToCart = productId => (dispatch, getState) => {
-    if (getState().products.byId[productId].inventory > 0) {
-        dispatch(addToCartUnsafe(productId));
-    }
-};
+export const addChild = (nodeId, childId) => ({
+    type: ADD_CHILD,
+    nodeId,
+    childId
+});
 
-export const checkout = products => (dispatch, getState) => {
-    const { cart } = getState();
-
-    dispatch({
-        type: types.CHECKOUT_REQUEST
-    });
-
-    shop.buyProducts(products, () => {
-        dispatch({
-            type: types.CHECKOUT_SUCCESS,
-            cart
-        });
-    });
-
-    //to rollback from checkout, replace above code with line below
-    //dispatch({ type: types.CHECKOUT_FAILURE, cart });
-};
+export const removeChild = (nodeId, childId) => ({
+    type: REMOVE_CHILD,
+    nodeId,
+    childId
+});
