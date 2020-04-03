@@ -4,15 +4,16 @@ import {
     ADD_TO_CART
 } from "../constants/ActionTypes";
 
-const products = (state, action) => {
+const products = (product_state, action) => {
+    //console.log(`reducer products >> ${action.type}`);
     switch (action.type) {
         case ADD_TO_CART:
             return {
-                ...state,
-                inventory: state.inventory - 1
+                ...product_state,
+                inventory: product_state.inventory - 1
             };
         default:
-            return state;
+            return product_state;
     }
 };
 
