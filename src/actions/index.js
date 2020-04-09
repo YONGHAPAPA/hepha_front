@@ -1,33 +1,56 @@
-export const INCREMENT = "INCREMENT";
-export const CREATE_NODE = "CREATE_NODE";
-export const DELETE_NODE = "DELETE_NODE";
-export const ADD_CHILD = "ADD_CHILD";
-export const REMOVE_CHILD = "REMOVE_CHILD";
+export const REQUEST_POSTS = "REQUEST_POSTS";
+export const RECEIVE_POSTS = "RECEIVE_POSTS";
+export const SELECT_SUBREDDIT = "SELECT_SUBREDDIT";
+export const INVALIDATE_SUBREDDIT = "INVALIDATE_SUBREDDIT";
 
-export const increment = nodeId => ({
-    type: INCREMENT,
-    nodeId
+export const selectSubreddit = (subreddit) => ({
+    type: SELECT_SUBREDDIT,
+    subreddit,
 });
 
-let nextId = 0;
-export const createNode = () => ({
-    type: CREATE_NODE,
-    nodeId: `new_${nextId++}`
+export const invalidateSubreddit = (subreddit) => ({
+    type: INVALIDATE_SUBREDDIT,
+    subreddit,
 });
 
-export const deleteNode = nodeId => ({
-    type: DELETE_NODE,
-    nodeId
+export const requestPosts = (subreddit) => ({
+    type: REQUEST_POSTS,
+    subreddit,
 });
 
-export const addChild = (nodeId, childId) => ({
-    type: ADD_CHILD,
-    nodeId,
-    childId
+export const receivePosts = (subreddit, json) => ({
+    type: RECEIVE_POSTS,
+    subreddit,
+    posts: json.data.children.map((child) => child.data),
+    receivedAt: Date.now(),
 });
 
-export const removeChild = (nodeId, childId) => ({
-    type: REMOVE_CHILD,
-    nodeId,
-    childId
-});
+const fetchPosts = (subreddit) => (dispatch) => {
+    dispatch(requestPosts(subreddit));
+    return fetch(`https:www.reddit.com/r/${subreddit}.json`)
+        .then((res) => res.json())
+        .then((json) => dispatch(receivePosts(subreddit, json)));
+};
+
+const shouldFetchPosts = (state, subreddit) => {
+    const posts = state.postsBySubreddit[subreddit];
+
+    if (!posts) {
+        return true;
+    }
+
+    if (posts.isFetching) {
+        return false;
+    }
+
+    return posts.didInvalidate;
+};
+
+export const fetchPostsIfNeeded = (subreddit) => (
+    dispatch,
+    getState
+) => {
+    if (shouldFetchPosts(getState(), subreddit)) {
+        return dispatch(fetchPosts(subreddit));
+    }
+};

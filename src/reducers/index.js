@@ -1,75 +1,73 @@
+import { combineReducers } from "redux";
 import {
-    INCREMENT,
-    ADD_CHILD,
-    REMOVE_CHILD,
-    CREATE_NODE,
-    DELETE_NODE
+    SELECT_SUBREDDIT,
+    INVALIDATE_SUBREDDIT,
+    REQUEST_POSTS,
+    RECEIVE_POSTS,
 } from "../actions";
 
-const childIds = (childState, action) => {
+const selectedSubreddit = (state = "reactjs", action) => {
     switch (action.type) {
-        case ADD_CHILD:
-            return [...childState, action.childId];
-        case REMOVE_CHILD:
-            return childState.filter(id => id !== action.childId);
+        case SELECT_SUBREDDIT:
+            return action.subreddit;
         default:
-            return childState;
+            return state;
     }
 };
 
-const node = (state, action) => {
+const posts = (
+    state = {
+        ifFetchig: false,
+        didInvalidate: false,
+        items: [],
+    },
+    action
+) => {
     switch (action.type) {
-        case CREATE_NODE:
-            return {
-                id: action.nodeId,
-                counter: 0,
-                childIds: []
-            };
-        case INCREMENT:
+        case INVALIDATE_SUBREDDIT:
             return {
                 ...state,
-                counter: state.counter + 1
+                didInvalidate: true,
             };
-        case ADD_CHILD:
-        case REMOVE_CHILD:
+        case REQUEST_POSTS:
             return {
                 ...state,
-                childIds: childIds(state.childIds, action)
+                isFetching: true,
+                didInvalidate: false,
+            };
+        case RECEIVE_POSTS:
+            return {
+                ...state,
+                isFetching: false,
+                didInvalidate: false,
+                items: action.posts,
+                lastUpdated: action.receivedAt,
             };
         default:
             return state;
     }
 };
 
-const getAllDescendantIds = (state, nodeId) =>
-    state[nodeId].childIds.reduce(
-        (acc, childId) => [
-            ...acc,
-            childId,
-            ...getAllDescendantIds(state, childId)
-        ],
-        []
-    );
-
-const deleteMany = (state, ids) => {
-    state = { ...state };
-    ids.forEach(id => delete state[id]);
-    return state;
+const postsBySubreddit = (state = {}, action) => {
+    switch (action.type) {
+        case INVALIDATE_SUBREDDIT:
+        case RECEIVE_POSTS:
+        case REQUEST_POSTS:
+            return {
+                ...state,
+                [action.subreddit]: posts(
+                    state[action.subreddit],
+                    action
+                ),
+            };
+        default:
+            return state;
+    }
 };
 
-export default (state = {}, action) => {
-    const { nodeId } = action;
-    if (typeof nodeId === "undefined") {
-        return state;
-    }
+const rootReducer = combineReducers({
+    postsBySubreddit,
+    selectedSubreddit,
+});
 
-    if (action.type === DELETE_NODE) {
-        const descendantIds = getAllDescendantIds(state, nodeId);
-        return deleteMany(state, [nodeId, ...descendantIds]);
-    }
-
-    return {
-        ...state,
-        [nodeId]: node(state[nodeId], action)
-    };
-};
+export default rootReducer;

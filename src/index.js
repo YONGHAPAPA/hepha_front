@@ -1,21 +1,27 @@
 import React from "react";
 import { render } from "react-dom";
-import { createStore } from "redux";
+import { createStore, applyMiddleware } from "redux";
 import { Provider } from "react-redux";
+import thunk from "redux-thunk";
+import { createLogger } from "redux-logger";
 import reducer from "./reducers";
-import generateTree from "./generateTree";
-import {
-    composeWithDevTools,
-    devToolsEnhancer
-} from "redux-devtools-extension";
-import Node from "./containers/Node";
+import { composeWithDevTools } from "redux-devtools-extension";
+import App from "./containers/App";
 
-const tree = generateTree();
-const store = createStore(reducer, tree, devToolsEnhancer());
+const middleware = [thunk];
+
+if (process.env.NODE_ENV !== "production") {
+    middleware.push(createLogger());
+}
+
+const store = createStore(
+    reducer,
+    composeWithDevTools(applyMiddleware(...middleware))
+);
 
 render(
     <Provider store={store}>
-        <Node id={0} />
+        <App />
     </Provider>,
     document.getElementById("root")
 );
